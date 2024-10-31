@@ -105,20 +105,7 @@ app.get('/produtos/:id', async (req: Request, res: Response) => {
 });
 
 app.post('/produtos', upload.single('foto'), auth, async (req: Request, res: Response) => {
-    if (!req.file) {
-        return res.status(400).json({ mensagem: "A Foto é obrigatória!" });
-    }
-    try {
-        const { nome, descricao } = req.body;
-        await prisma.produto.create({
-            data: { nome, descricao, foto: req.file.buffer },
-        });
-        res.status(201).json({
-            mensagem: "Produto cadastrado com sucesso!",
-        });
-    } catch (error) {
-        res.status(500).json({ mensagem: "Falha ao cadastrar o produto!" });
-    }
+    console.log(req);
 });
 
 app.delete('/produtos/:id', auth, async (req: Request, res: Response) => {

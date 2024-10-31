@@ -7,7 +7,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ 
   storage: storage,
   dest: 'uploads/',
-  fileFilter(req: Request, file: multer.File, cb: FileFilterCallback) {
+  fileFilter(req: Request, file: Express.Multer.File, cb: FileFilterCallback) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
       return cb(new Error('Please upload an image'));
     }
