@@ -1,0 +1,29 @@
+@baseURL = http://localhost:3001
+
+
+POST {{baseURL}}/produtos
+Content-Type: multipart/form-data; boundary=boundary
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJpYXQiOjE3MzAzODAyNjEsImV4cCI6MTczMDQ2NjY2MX0.M4Ga0Dt-daJ4ZZjAcvh1nnO14ZlI3wO6j4ihghM7xZs
+
+--boundary
+Content-Disposition: form-data; name="nome"
+
+Produto1
+--boundary
+Content-Disposition: form-data; name="descricao"
+
+teste
+--boundary
+Content-Disposition: form-data; name="valor"
+
+10
+--boundary
+Content-Disposition: form-data; name="quantidade"
+
+3
+--boundary
+Content-Disposition: form-data; name="foto"; filename="Teste.png"
+Content-Type: image/png
+
+[Teste.png]
+--boundary--

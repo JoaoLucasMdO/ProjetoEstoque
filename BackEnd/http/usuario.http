@@ -1,0 +1,23 @@
+@baseURL = http://localhost:3001
+
+###
+# @prompt senha
+POST {{baseURL}}/cadastro
+Content-Type: application/json
+
+{
+    "nome": "Gesley",
+    "email": "gesley2@gmail.com",
+    "senha": "{{senha}}"
+}
+
+###
+# @prompt senha
+//POST - Efetua o login
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+    "email": "gesley@gmail.com",
+    "senha": "{{senha}}"
+}

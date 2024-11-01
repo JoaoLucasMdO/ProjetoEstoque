@@ -58,7 +58,9 @@ app.post('/cadastro', async (req: Request, res: Response) => {
             mensagem: "Usuário cadastrado com sucesso!",
         });
     } catch (error) {
-        res.status(500).json({ mensagem: "Falha ao cadastrar o usuário!" });
+        res.status(500).json({ mensagem: "Falha ao cadastrar o usuário!",
+            error: error
+         });
     }
 });
 
@@ -105,7 +107,27 @@ app.get('/produtos/:id', async (req: Request, res: Response) => {
 });
 
 app.post('/produtos', upload.single('foto'), auth, async (req: Request, res: Response) => {
-    console.log(req);
+    if (!req.file) {
+         res.status(400).json({ mensagem: "A Foto é obrigatória!" });
+    }else{
+    try {
+       
+        const { nome, descricao, valor, quantidade } = req.body;
+
+        const quantidadeNumerica = Number(quantidade);
+        
+        await prisma.produto.create({
+            data: { nome, descricao, imagem: req.file.buffer, valor, quantidade:quantidadeNumerica },
+        });
+        res.status(201).json({
+            mensagem: "Produto cadastrado com sucesso!",
+        });
+    } catch (error) {
+        res.status(500).json({ mensagem: "Falha ao cadastrar o produto!",
+            error: error
+         });
+    }
+}
 });
 
 app.delete('/produtos/:id', auth, async (req: Request, res: Response) => {
@@ -123,21 +145,36 @@ app.delete('/produtos/:id', auth, async (req: Request, res: Response) => {
     }
 });
 
-app.put('/produtos/:id', auth, async (req: Request, res: Response) => {
+app.put('/produtos/:id', upload.single('foto'), auth, async (req: Request, res: Response) => {
     const paramId = Number(req.params.id);
+
+    const updatedData: any = {
+        ...req.body,
+        valor: req.body.valor ? Number(req.body.valor) : undefined,
+        quantidade: req.body.quantidade ? Number(req.body.quantidade) : undefined,
+    };
+
+    if (req.file) {
+        updatedData.imagem = req.file.buffer; 
+    }
+
     try {
         const produto = await prisma.produto.update({
             where: { id: paramId },
-            data: req.body
+            data: updatedData,
         });
         res.status(200).json({
             mensagem: "Produto atualizado com sucesso!",
-            produto: produto
+            produto: produto,
         });
     } catch (error) {
-        res.status(500).json({ mensagem: "Falha ao atualizar o produto." });
+        res.status(500).json({
+            mensagem: "Falha ao atualizar o produto.",
+            error: error,
+        });
     }
 });
+
 
 app.listen(3001, () => {
     console.log('Servidor rodando na porta 3001');

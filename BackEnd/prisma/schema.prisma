@@ -8,11 +8,12 @@ datasource db {
 }
 
 model produto {
-  id        Int     @id @default(autoincrement())
-  nome      String  @db.VarChar(100)
-  descricao String? @db.Text
-  imagem    Bytes   @db.Blob
-  valor     Decimal @db.Decimal(10, 2)
+  id         Int     @id @default(autoincrement())
+  nome       String  @db.VarChar(100)
+  descricao  String? @db.Text
+  imagem     Bytes   @db.Blob
+  valor      Decimal @db.Decimal(10, 2)
+  quantidade Int
 }
 
 model usuario {
