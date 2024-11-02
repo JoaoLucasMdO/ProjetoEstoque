@@ -11,7 +11,7 @@ model produto {
   id         Int     @id @default(autoincrement())
   nome       String  @db.VarChar(100)
   descricao  String? @db.Text
-  imagem     Bytes   @db.Blob
+  imagem     Bytes   @db.MediumBlob
   valor      Decimal @db.Decimal(10, 2)
   quantidade Int
 }
